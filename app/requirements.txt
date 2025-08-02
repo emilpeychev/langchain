@@ -2,4 +2,5 @@ langchain
 langchain-ollama
 fastapi
 uvicorn
-
+langchain-community
+faiss-cpu
