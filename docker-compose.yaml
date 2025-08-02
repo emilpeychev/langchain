@@ -1,0 +1,21 @@
+services:
+  langchain:
+    container_name: langchain
+    build: .
+    ports:
+      - "8081:8081"
+    environment:
+      - LANGCHAIN_TRACING_V2=false
+    restart: unless-stopped 
+# Container Volumes    
+    volumes:
+      - langchain_data:/app/data  # mount volume into container
+    networks:
+      - default
+
+volumes:
+  langchain_data:
+# Set jenkins as default network
+networks:
+  default:
+    name: langchain_network
