@@ -11,11 +11,11 @@ services:
     volumes:
       - langchain_data:/app/data  # mount volume into container
     networks:
-      - default
+      - jenkins
 
 volumes:
   langchain_data:
-# Set jenkins as default network
+# Set jenkins as jenkins network
 networks:
-  default:
-    name: langchain_network
+  jenkins:
+    external: true
