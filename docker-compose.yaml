@@ -1,20 +1,37 @@
 services:
+  ollama:
+    container_name: ollama
+    image: ollama/ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama:/root/.ollama
+    restart: unless-stopped
+    networks:
+      - jenkins
+    mem_limit: 10g      # Limit memory to 10GB
+    cpus: 10.0          # Limit CPU to 10 core
+
   langchain:
     container_name: langchain
     build: .
     ports:
       - "8081:8081"
     environment:
-      - LANGCHAIN_TRACING_V2=false
+      - LANGCHAIN_TRACING_V2=false # Which is used for debugging and monitoring chains and agents
     restart: unless-stopped 
-# Container Volumes    
     volumes:
-      - langchain_data:/app/data  # mount volume into container
+      - langchain_data:/app/data
     networks:
       - jenkins
-
+    depends_on:
+      - ollama
+    mem_limit: 2g      # Limit memory to 2GB
+    cpus: 1.0          # Limit CPU to 1.0 core
+# Stack Volumes      
 volumes:
   langchain_data:
+  ollama:
 # Set jenkins as jenkins network
 networks:
   jenkins:
