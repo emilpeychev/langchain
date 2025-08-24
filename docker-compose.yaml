@@ -11,7 +11,15 @@ services:
       - jenkins
     mem_limit: 10g      # Limit memory to 10GB
     cpus: 10.0          # Limit CPU to 10 core
-
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all   # Make all GPUs visible to the container
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
   langchain:
     container_name: langchain
     build: .
@@ -28,6 +36,7 @@ services:
       - ollama
     mem_limit: 2g      # Limit memory to 2GB
     cpus: 1.0          # Limit CPU to 1.0 core
+
 # Stack Volumes      
 volumes:
   langchain_data:
